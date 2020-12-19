@@ -6,7 +6,6 @@ Created on Sat Dec 19 01:40:59 2020
 """
 import numpy as np
 from scipy.stats import norm, mode
-from tqdm import tqdm
 
 class mcmc_logistic_reg:
     
@@ -83,7 +82,7 @@ class mcmc_logistic_reg:
         beta_hat = beta_hat.reshape((beta_priors.shape[0], num_iter+1))
         
         # perform num_iter iterations
-        for i in tqdm(range(1, num_iter + 1)):
+        for i in range(1, num_iter + 1):
             
             # shuffle the beta indexes so the order of the coefficients taking 
             # the Metropolis step is random
