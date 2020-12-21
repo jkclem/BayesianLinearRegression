@@ -85,7 +85,7 @@ class GaussianRegressor(MHLinearRegressor):
         """   
         
         # Calculate a value proportional to the log-posterior.
-        _log_posterior = (self.normal_log_prior(beta, prior_means, prior_stds) 
+        _log_posterior = (self._normal_log_prior(beta, prior_means, prior_stds) 
                          + self._log_likelihood(y, X, beta, y_std))
         
         return _log_posterior
