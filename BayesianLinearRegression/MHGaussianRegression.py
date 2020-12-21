@@ -4,15 +4,15 @@ Created on Sun Dec 20 04:22:39 2020
 
 @author: jkcle
 """
-from RegressorMCMC import RegressorMCMC
+from .MHLinearModel import MHLinearRegressor
 from scipy.stats import norm
 import numpy as np
 from tqdm import tqdm
 
-class LinearRegressorMCMC(RegressorMCMC):
+class GaussianRegressor(MHLinearRegressor):
     
     def __init__(self):
-        RegressorMCMC.__init__(self)
+        MHLinearRegressor.__init__(self)
         
     def log_likelihood(self, y, X, beta, y_std):
         """

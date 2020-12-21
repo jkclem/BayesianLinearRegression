@@ -4,4 +4,5 @@ Created on Sun Dec 20 03:45:54 2020
 
 @author: jkcle
 """
-from .LogisticRegressorMCMC import LogisticRegressorMCMC
+from .MHLogisticRegression import LogisticRegressor
+from .MHGaussianRegression import GaussianRegressor

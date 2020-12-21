@@ -8,7 +8,7 @@ import numpy as np
 from scipy.stats import norm, mode
 from tqdm import tqdm
 
-class RegressorMCMC():
+class MHLinearRegressor():
     """ 
     This is a parent class for linear models whose coefficients are fit using
     a Metropolis-Hastings Markov Chain Monte Carlo algorithm with a normal

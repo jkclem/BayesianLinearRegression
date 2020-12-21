@@ -4,13 +4,13 @@ Created on Sat Dec 19 16:51:38 2020
 
 @author: jkcle
 """
-from RegressorMCMC import RegressorMCMC
+from .MHLinearModel import MHLinearRegressor
 import numpy as np
 
-class LogisticRegressorMCMC(RegressorMCMC):
+class LogisticRegressor(MHLinearRegressor):
     
     def __init__(self):
-        RegressorMCMC.__init__(self)
+        MHLinearRegressor.__init__(self)
         
     def inv_logit(self, beta, X):
         """
