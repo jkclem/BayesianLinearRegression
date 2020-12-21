@@ -10,4 +10,6 @@ setup(name="BayesianLinearRegression",
       version="0.1",
       description="Fits Linear and Logistic Regression Models using MCMC.",
       packages=["BayesianLinearRegression"],
+      author="John Clements",
+      author_email="blr.johnclements@gmail.com",
       zipsafe=False)
