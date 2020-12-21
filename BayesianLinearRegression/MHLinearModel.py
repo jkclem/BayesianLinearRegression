@@ -8,7 +8,7 @@ import numpy as np
 from scipy.stats import norm, mode
 from tqdm import tqdm
 
-class MHLinearRegressor():
+class MetropolisHastingsLinearModel():
     """ 
     This is a parent class for linear models whose coefficients are fit using
     a Metropolis-Hastings Markov Chain Monte Carlo algorithm with a normal
@@ -56,28 +56,13 @@ class MHLinearRegressor():
         return log_prior
     
     
-    def _log_likelihood(self, y, X, beta):
+    def _log_likelihood(self):
         """
         This method needs to be overwritten by the child classes because it
         depends on the distribution of the data being modeled. It calculates 
         the log-likelihood of the betas given the data. The log-likelihood 
         plus the log-prior is proportional to the log-posterior. It is used in 
         the model fitting process.
-
-        Parameters
-        ----------
-        y : numpy array
-            A 1-D array of the endogenous variable (target variable).
-        X : numpy array
-            A 2-D matrix where rows represent observations and columns 
-            represent variables.
-        beta : numpy array
-            A 1-D vector of coefficients in the regression model.
-
-        Returns
-        -------
-        None.
-
         """      
         pass
     

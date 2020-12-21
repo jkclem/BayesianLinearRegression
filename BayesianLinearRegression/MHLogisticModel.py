@@ -4,13 +4,19 @@ Created on Sat Dec 19 16:51:38 2020
 
 @author: jkcle
 """
-from .MHLinearModel import MHLinearRegressor
+from .MHLinearModel import MetropolisHastingsLinearModel
 import numpy as np
 
-class LogisticRegressor(MHLinearRegressor):
+class LogisticModel(MetropolisHastingsLinearModel):
+    """
+    The LogisticModel class inherits from the MetropolisHastingsLinearModel
+    class. The _inv_logit method is added to translate log-odds to 
+    probabilities in the _log_likelihood method and the predict_probabilities
+    method. A method for predicting class is added as well.
+    """
     
     def __init__(self):
-        MHLinearRegressor.__init__(self)
+        MetropolisHastingsLinearModel.__init__(self)
         
     def _inv_logit(self, beta, X):
         """
