@@ -256,7 +256,7 @@ class MHLinearRegressor():
         self._burn(burn_in)
         # Choose the model coefficients with the median, mean, or mode of the
         # simulated posteriors of the coefficients.
-        self.fit_method(method)
+        self._fit_method(method)
         # Set the _intercept_added attribute so the model remembers if it
         # needs to add an intercept to inputs for prediction.
         self._intercept_added = add_intercept
@@ -266,7 +266,7 @@ class MHLinearRegressor():
         return None
       
     
-    def fit_method(self, method):
+    def _fit_method(self, method):
         """
         This method sets the _beta_hat attribute as either the median, mean,
         or mode as the estimate of each coefficient in the beta vector.

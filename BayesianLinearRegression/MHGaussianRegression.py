@@ -235,14 +235,14 @@ class GaussianRegressor(MHLinearRegressor):
         # Set the attribute _beta_distribution with the simulated posteriors.
         self._beta_distribution = beta_hat
         # Discard the first burn_in % samples from _beta_distribution.
-        self.burn(burn_in)
+        self._burn(burn_in)
         # Choose the model coefficients with the median, mean, or mode of the
         # simulated posteriors of the coefficients.
-        self.fit_method(method)
+        self._fit_method(method)
         # Set the _intercept_added attribute so the model remembers if it
         # needs to add an intercept to inputs for prediction.
         self._intercept_added = add_intercept
         # Set the _credible_interval attribute.
-        self.credible_interval(alpha)
+        self._credible_interval(alpha)
         
         return None
