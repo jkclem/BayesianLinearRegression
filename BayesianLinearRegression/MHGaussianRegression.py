@@ -14,9 +14,9 @@ class GaussianRegressor(MHLinearRegressor):
     def __init__(self):
         MHLinearRegressor.__init__(self)
         
-    def log_likelihood(self, y, X, beta, y_std):
+    def _log_likelihood(self, y, X, beta, y_std):
         """
-        Overwrites the log_likelihood method inherited from the RegressorMCMC
+        Overwrites the _log_likelihood method inherited from the RegressorMCMC
         class to calculate the log-likelihood of the linear regression
         coefficients given normally-distributed data. It is used in the
         model fitting process. y_std must be estimated prior to using this
@@ -37,7 +37,7 @@ class GaussianRegressor(MHLinearRegressor):
 
         Returns
         -------
-        log_likelihood : float
+        _log_likelihood : float
             The log-likelihood of the beta vector given the data.
 
         """
@@ -46,13 +46,13 @@ class GaussianRegressor(MHLinearRegressor):
         predicted_y = np.matmul(X, beta)
         
         # Calculate the log-likelihood of beta given the data.
-        log_likelihood = np.sum(norm.logpdf(y,
+        _log_likelihood = np.sum(norm.logpdf(y,
                                             loc=predicted_y,
                                             scale=y_std))
         
-        return log_likelihood
+        return _log_likelihood
     
-    def log_posterior(self, y, X, beta, prior_means, prior_stds, y_std):
+    def _log_posterior(self, y, X, beta, prior_means, prior_stds, y_std):
         """
         This method calculates a value proportional to the log-posterior of 
         the betas given the log-likelihood of the proposed coefficients given
@@ -79,16 +79,16 @@ class GaussianRegressor(MHLinearRegressor):
 
         Returns
         -------
-        log_posterior : float
+        _log_posterior : float
             A value proportional to the log-posterior.
 
         """   
         
         # Calculate a value proportional to the log-posterior.
-        log_posterior = (self.normal_log_prior(beta, prior_means, prior_stds) 
-                         + self.log_likelihood(y, X, beta, y_std))
+        _log_posterior = (self.normal_log_prior(beta, prior_means, prior_stds) 
+                         + self._log_likelihood(y, X, beta, y_std))
         
-        return log_posterior
+        return _log_posterior
     
     
     def fit(self, 
@@ -106,7 +106,7 @@ class GaussianRegressor(MHLinearRegressor):
             random_seed=1):
         """
         This method is copied from the parent class, but modified because the
-        log_likelihood method has an additional input. 
+        _log_likelihood method has an additional input. 
         
         This method fits a model to the input data by simulating the posterior
         distributions of the coefficients using the Metropolis-Hastings 
@@ -212,11 +212,11 @@ class GaussianRegressor(MHLinearRegressor):
                 beta_prop[j, 0] = proposal_beta_j
                 
                 # Calculate the log-posterior probability of the proposed beta.
-                log_p_proposal = self.log_posterior(y, X_mod, beta_prop, 
+                log_p_proposal = self._log_posterior(y, X_mod, beta_prop, 
                                                     beta_now, prior_stds, 
                                                     y_std)
                 # Calculate the log-posterior probability of the current beta.
-                log_p_previous = self.log_posterior(y, X_mod, beta_now, 
+                log_p_previous = self._log_posterior(y, X_mod, beta_now, 
                                                     beta_now, prior_stds, 
                                                     y_std)
                 

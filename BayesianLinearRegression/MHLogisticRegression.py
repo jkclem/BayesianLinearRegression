@@ -12,13 +12,13 @@ class LogisticRegressor(MHLinearRegressor):
     def __init__(self):
         MHLinearRegressor.__init__(self)
         
-    def inv_logit(self, beta, X):
+    def _inv_logit(self, beta, X):
         """
         This method takes in a vector of coefficients for a logistic 
         regression model and a matrix of data and returns the probabilities of
         belonging to the class 1 by first calculating the log-odds and 
         translating the log-odds to probabilities. It is used by the 
-        log_likelihood and predict_probabilities methods.
+        _log_likelihood and predict_probabilities methods.
 
         Parameters
         ----------
@@ -45,9 +45,9 @@ class LogisticRegressor(MHLinearRegressor):
         
         return probabilities
     
-    def log_likelihood(self, y, X, beta):
+    def _log_likelihood(self, y, X, beta):
         """
-        Overwrites the log_likelihood method inherited from the RegressorMCMC
+        Overwrites the _log_likelihood method inherited from the RegressorMCMC
         class to calculate the log-likelihood of the logistic regression
         coefficients given binomially-distributed data. It is used in the
         model fitting process.
@@ -64,16 +64,16 @@ class LogisticRegressor(MHLinearRegressor):
 
         Returns
         -------
-        log_likelihood : float
+        _log_likelihood : float
             The log-likelihood of the beta vector given the data.
 
         """
         
         # Calculate the log-likelihood of beta given the data.
-        log_likelihood = np.sum(y*np.log(self.inv_logit(beta, X)) 
-                                + (1-y)*np.log((1-self.inv_logit(beta,X))))
+        _log_likelihood = np.sum(y*np.log(self._inv_logit(beta, X)) 
+                                + (1-y)*np.log((1-self._inv_logit(beta,X))))
         
-        return log_likelihood
+        return _log_likelihood
     
     def predict_probabilities(self, X):
         """
@@ -104,7 +104,7 @@ class LogisticRegressor(MHLinearRegressor):
         
         # Calculate the probability of each new observation belonging to 
         # class 1.
-        predicted_probabilities = self.inv_logit(self._beta_hat, X_new)
+        predicted_probabilities = self._inv_logit(self._beta_hat, X_new)
             
         return predicted_probabilities
     

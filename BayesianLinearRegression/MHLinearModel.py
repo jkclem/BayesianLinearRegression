@@ -22,7 +22,7 @@ class MHLinearRegressor():
         self._credible_intervals = np.empty(1)
         
         
-    def normal_log_prior(self, beta, prior_means, prior_stds):
+    def _normal_log_prior(self, beta, prior_means, prior_stds):
         """
         This method calculates the log-prior of the coefficients using our
         normal priors. The log-likelihood plus the log-prior is proportional 
@@ -56,7 +56,7 @@ class MHLinearRegressor():
         return log_prior
     
     
-    def log_likelihood(self, y, X, beta):
+    def _log_likelihood(self, y, X, beta):
         """
         This method needs to be overwritten by the child classes because it
         depends on the distribution of the data being modeled. It calculates 
@@ -82,7 +82,7 @@ class MHLinearRegressor():
         pass
     
     
-    def log_posterior(self, y, X, beta, prior_means, prior_stds):
+    def _log_posterior(self, y, X, beta, prior_means, prior_stds):
         """
         This method calculates a value proportional to the log-posterior of 
         the betas given the log-likelihood of the proposed coefficients given
@@ -106,16 +106,16 @@ class MHLinearRegressor():
 
         Returns
         -------
-        log_posterior : float
+        _log_posterior : float
             A value proportional to the log-posterior.
 
         """   
         
         # Calculate a value proportional to the log-posterior.
-        log_posterior = (self.normal_log_prior(beta, prior_means, prior_stds) 
-                         + self.log_likelihood(y, X, beta))
+        _log_posterior = (self._normal_log_prior(beta, prior_means, prior_stds) 
+                         + self._log_likelihood(y, X, beta))
         
-        return log_posterior
+        return _log_posterior
     
     
     def fit(self, 
@@ -232,10 +232,10 @@ class MHLinearRegressor():
                 beta_prop[j, 0] = proposal_beta_j
                 
                 # Calculate the log-posterior probability of the proposed beta.
-                log_p_proposal = self.log_posterior(y, X_mod, beta_prop, 
+                log_p_proposal = self._log_posterior(y, X_mod, beta_prop, 
                                                     beta_now, prior_stds)
                 # Calculate the log-posterior probability of the current beta.
-                log_p_previous = self.log_posterior(y, X_mod, beta_now, 
+                log_p_previous = self._log_posterior(y, X_mod, beta_now, 
                                                     beta_now, prior_stds)
                 
                 # Calculate the log of the r-ratio.
@@ -253,7 +253,7 @@ class MHLinearRegressor():
         # Set the attribute _beta_distribution with the simulated posteriors.
         self._beta_distribution = beta_hat
         # Discard the first burn_in % samples from _beta_distribution.
-        self.burn(burn_in)
+        self._burn(burn_in)
         # Choose the model coefficients with the median, mean, or mode of the
         # simulated posteriors of the coefficients.
         self.fit_method(method)
@@ -261,7 +261,7 @@ class MHLinearRegressor():
         # needs to add an intercept to inputs for prediction.
         self._intercept_added = add_intercept
         # Set the _credible_interval attribute.
-        self.credible_interval(alpha)
+        self._credible_interval(alpha)
         
         return None
       
@@ -306,7 +306,7 @@ class MHLinearRegressor():
         return None
         
     
-    def burn(self, burn_in):
+    def _burn(self, burn_in):
         """
         This function discards the first 100*burn_in % of the simulated
         posterior distribution of beta.
@@ -335,7 +335,7 @@ class MHLinearRegressor():
         return None
      
     
-    def credible_interval(self, alpha):
+    def _credible_interval(self, alpha):
         """
         This method sets the _credible_interval attribute as the 
         100*(1-alpha)% credible interval for each coefficient in the beta 
